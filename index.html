@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新設法人デイリー | 新設法人リストを無料でダウンロード</title>
+    <meta name="description" content="新設法人デイリー — 国税庁公開データから新設法人リストを毎朝自動取得。累計150万件超、完全無料でダウンロードできます。">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+            line-height: 1.7;
+            color: #222;
+            background: #fafafa;
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 48px 20px 32px;
+        }
+
+        /* ヘッドライン */
+        .headline {
+            text-align: center;
+            margin-bottom: 36px;
+            padding-top: 16px;
+        }
+
+        .headline h1 {
+            font-size: 2.1rem;
+            font-weight: 800;
+            color: #111;
+            margin-bottom: 12px;
+            line-height: 1.4;
+            letter-spacing: -0.02em;
+        }
+
+        .headline p {
+            color: #555;
+            font-size: 1rem;
+        }
+
+        /* 数字 */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #1a56db;
+        }
+
+        .stat-label {
+            font-size: 0.78rem;
+            color: #666;
+            margin-top: 2px;
+        }
+
+        /* チェックリスト */
+        .checklist {
+            max-width: 420px;
+            margin: 0 auto 36px;
+        }
+
+        .check-item {
+            font-size: 0.9rem;
+            color: #333;
+            padding: 7px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .check-item:last-child {
+            border-bottom: none;
+        }
+
+        /* サンプルテーブル */
+        .sample {
+            margin-bottom: 16px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 8px rgba(0,0,0,0.08);
+        }
+
+        .sample table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            background: #fff;
+        }
+
+        .sample thead {
+            background: #1a56db;
+            color: #fff;
+        }
+
+        .sample th {
+            padding: 10px 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .sample td {
+            padding: 9px 12px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .sample tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* 信頼メッセージ */
+        .trust {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 16px;
+            color: #555;
+            font-size: 0.85rem;
+            line-height: 1.8;
+        }
+
+        .trust strong {
+            color: #333;
+        }
+
+        /* フォーム */
+        .form-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 32px 28px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+            margin-bottom: 32px;
+        }
+
+        .form-card h2 {
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: #111;
+        }
+
+        .field {
+            margin-bottom: 16px;
+        }
+
+        .field label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .field label .req,
+        .group-label .req {
+            color: #e53e3e;
+            font-size: 0.75rem;
+            margin-left: 4px;
+            font-weight: 700;
+        }
+
+        .field label .opt,
+        .group-label .opt {
+            color: #888;
+            font-size: 0.75rem;
+            margin-left: 4px;
+        }
+
+        .field input,
+        .field select {
+            width: 100%;
+            padding: 11px 13px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            color: #222;
+            transition: border-color 0.2s;
+        }
+
+        .field input:focus,
+        .field select:focus {
+            outline: none;
+            border-color: #1a56db;
+            box-shadow: 0 0 0 3px rgba(26,86,219,0.08);
+        }
+
+        /* 興味カテゴリ */
+        .category-group {
+            margin-bottom: 16px;
+        }
+
+        .category-group label.group-label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .category-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .category-options label {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.82rem;
+            color: #444;
+            cursor: pointer;
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            transition: all 0.2s;
+        }
+
+        .category-options label:hover {
+            border-color: #1a56db;
+            background: #f0f5ff;
+        }
+
+        .category-options input[type="checkbox"] {
+            width: 14px;
+            height: 14px;
+            accent-color: #1a56db;
+        }
+
+        /* 同意チェック */
+        .consent-group {
+            margin-bottom: 16px;
+            padding: 14px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid #eee;
+        }
+
+        .consent-group .consent-title {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        .consent-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            margin-bottom: 6px;
+            font-size: 0.8rem;
+            color: #555;
+        }
+
+        .consent-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .consent-item input[type="checkbox"] {
+            margin-top: 2px;
+            width: 14px;
+            height: 14px;
+            accent-color: #1a56db;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 13px;
+            background: #1a56db;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: background 0.2s;
+        }
+
+        .submit-btn:hover {
+            background: #1444b0;
+        }
+
+        .form-note {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 0.75rem;
+            color: #999;
+        }
+
+        /* 利用目的 */
+        .purpose {
+            margin-top: 16px;
+            padding: 12px 14px;
+            background: #f8fafc;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            color: #777;
+            line-height: 1.7;
+        }
+
+        .purpose strong {
+            color: #555;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        /* フッター */
+        footer {
+            text-align: center;
+            padding: 24px 20px;
+            border-top: 1px solid #eee;
+            font-size: 0.75rem;
+            color: #999;
+        }
+
+        footer a {
+            color: #888;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+
+        footer a:hover {
+            color: #555;
+        }
+
+        /* レスポンシブ */
+        @media (max-width: 600px) {
+            .container { padding: 32px 16px 24px; }
+            .headline h1 { font-size: 1.6rem; }
+            .stats { gap: 24px; }
+            .stat-value { font-size: 1.4rem; }
+            .sample { overflow-x: auto; }
+            .sample table { min-width: 400px; }
+            .form-card { padding: 24px 18px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- ヘッドライン -->
+    <div class="headline">
+        <h1>新設法人リストを<br>無料でダウンロード。</h1>
+        <p>国税庁の公開データを毎日自動取得。登録してすぐ使えます。</p>
+    </div>
+
+    <!-- 数字 -->
+    <div class="stats">
+        <div class="stat">
+            <div class="stat-value">1,480,000<span style="font-size:0.9rem;">+</span></div>
+            <div class="stat-label">累計取得件数</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">毎朝9時</div>
+            <div class="stat-label">更新頻度</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">¥0</div>
+            <div class="stat-label">完全無料</div>
+        </div>
+    </div>
+
+    <!-- 特徴チェックリスト -->
+    <div class="checklist">
+        <div class="check-item">✓ 毎日最新CSVをメールで受け取れる</div>
+        <div class="check-item">✓ 2016年〜現在の全アーカイブにアクセス可能</div>
+        <div class="check-item">✓ 法人名・住所・設立日・法人種別を収録</div>
+        <div class="check-item">✓ 国税庁 法人番号公表サイトのデータを自動取得</div>
+    </div>
+
+    <!-- 上部CTA -->
+    <div style="text-align:center; margin-bottom:32px;">
+        <a href="#download" style="display:inline-block; background:#1a56db; color:#fff; padding:11px 28px; border-radius:6px; font-size:0.9rem; font-weight:700; text-decoration:none; transition:background 0.2s;">無料でダウンロードする</a>
+        <p style="font-size:0.72rem; color:#999; margin-top:6px;">30秒で登録完了</p>
+    </div>
+
+    <!-- 直近の更新実績 -->
+    <div class="sample">
+        <table>
+            <thead>
+                <tr>
+                    <th>配信日</th>
+                    <th>追加企業数</th>
+                    <th>累計</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>2026/05/21</td><td>+683件</td><td>1,484,955件</td></tr>
+                <tr><td>2026/05/20</td><td>+671件</td><td>1,484,272件</td></tr>
+                <tr><td>2026/05/19</td><td>+589件</td><td>1,483,601件</td></tr>
+                <tr><td>2026/05/16</td><td>+702件</td><td>1,483,012件</td></tr>
+                <tr><td>2026/05/15</td><td>+645件</td><td>1,482,310件</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 信頼メッセージ -->
+    <div class="trust">
+        国税庁 法人番号公表サイトの公開情報を、毎日CSV形式で配信しています。
+    </div>
+
+    <!-- フォーム -->
+    <div class="form-card" id="download">
+        <h2>無料でダウンロード</h2>
+        <p style="text-align:center; font-size:0.85rem; color:#666; margin-bottom:20px;">登録後すぐに最新データと過去アーカイブをダウンロードできます。</p>
+        <form id="registration-form" action="#" method="POST">
+            <div class="field">
+                <label>メールアドレス<span class="req">必須</span></label>
+                <input type="email" name="email" placeholder="info@example.com" required>
+            </div>
+            <div class="field">
+                <label>会社名 / 屋号<span class="req">必須</span></label>
+                <input type="text" name="company_name" placeholder="株式会社○○ / ○○事務所" required>
+            </div>
+            <div class="field">
+                <label>担当者名<span class="opt">任意</span></label>
+                <input type="text" name="contact_name" placeholder="田中 太郎">
+            </div>
+            <div class="field">
+                <label>事業形態<span class="opt">任意</span></label>
+                <select name="business_type">
+                    <option value="">選択してください</option>
+                    <option value="individual">個人事業主</option>
+                    <option value="corporation">法人</option>
+                    <option value="foreign">外国法人</option>
+                </select>
+            </div>
+            <div class="field">
+                <label>業種・業態<span class="opt">任意</span></label>
+                <input type="text" name="industry" placeholder="例: Web制作 / 税理士 / 不動産 / 営業代行">
+            </div>
+
+            <!-- 活用目的（必須） -->
+            <div class="category-group">
+                <label class="group-label">リストの活用目的<span class="req">必須</span></label>
+                <div class="category-options">
+                    <label><input type="checkbox" name="purpose" value="sales">営業・新規開拓</label>
+                    <label><input type="checkbox" name="purpose" value="research">調査・分析</label>
+                    <label><input type="checkbox" name="purpose" value="partnership">提携・パートナー探索</label>
+                    <label><input type="checkbox" name="purpose" value="dm">DM・レター送付</label>
+                    <label><input type="checkbox" name="purpose" value="service_offer">サービス提案</label>
+                    <label><input type="checkbox" name="purpose" value="other">その他</label>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">無料でダウンロードする</button>
+            <p class="form-note">クレジットカード不要 / 登録後すぐにダウンロード可能 / 営業電話なし</p>
+
+            <!-- 利用目的の明示 -->
+            <div class="purpose">
+                <strong>取得情報の利用目的</strong>
+                ・新設法人リストの配信サービス提供・本人確認・問い合わせ対応<br>
+                ・サービス改善のためのアンケート、ヒアリング、利用状況の確認<br>
+                ・配信障害・仕様変更等の運営に関するご連絡<br>
+                <span style="color:#888; font-size:0.7rem;">※ 任意項目はサービス改善と配信内容の最適化に利用します</span>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+<!-- フッター -->
+<footer>
+    <a href="#">利用規約</a>
+    <a href="#">プライバシーポリシー</a>
+    <a href="#">特定商取引法に基づく表記</a>
+    <br><br>
+    &copy; 2026 新設法人デイリー
+</footer>
+
+</body>
+</html>
