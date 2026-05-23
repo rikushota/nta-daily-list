@@ -506,28 +506,26 @@ document.getElementById('registration-form').addEventListener('submit', function
         purposes.push(cb.value);
     });
 
-    var data = {
-        email: form.email.value,
-        company_name: form.company_name.value,
-        contact_name: form.contact_name ? form.contact_name.value : '',
-        business_type: form.business_type ? form.business_type.value : '',
-        industry: form.industry ? form.industry.value : '',
-        use_purpose: purposes.join(', '),
-        user_agent: navigator.userAgent
-    };
+    // FormDataとして送信（form POST形式）
+    var formData = new FormData();
+    formData.append('email', form.email.value);
+    formData.append('company_name', form.company_name.value);
+    formData.append('contact_name', form.contact_name ? form.contact_name.value : '');
+    formData.append('business_type', form.business_type ? form.business_type.value : '');
+    formData.append('industry', form.industry ? form.industry.value : '');
+    formData.append('use_purpose', purposes.join(', '));
+    formData.append('user_agent', navigator.userAgent);
 
     fetch('https://script.google.com/a/macros/kym-work.com/s/AKfycbydfuT3nKnmQcqfz9EZkg8sV4q8qG4FuQWe3d3Hz3YEl-nBgwkvZdNxvSZcl9-aPRwP/exec', {
         method: 'POST',
         mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify(data)
+        body: formData
     }).then(function() {
-        // no-corsではレスポンスが読めないが、送信自体は成功する
         form.style.display = 'none';
         document.getElementById('success-message').style.display = 'block';
-        // フォームカードの見出しも更新
         formCard.querySelector('h2').textContent = '登録が完了しました';
-        formCard.querySelector('h2 + p').style.display = 'none';
+        var subtitle = formCard.querySelector('h2 + p');
+        if (subtitle) subtitle.style.display = 'none';
     }).catch(function() {
         btn.textContent = '無料でダウンロードする';
         btn.disabled = false;
