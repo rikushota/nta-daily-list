@@ -461,11 +461,11 @@
             <p class="form-note">クレジットカード不要 / 登録後すぐにダウンロード可能 / 営業電話なし</p>
 
             <!-- 送信完了メッセージ（初期非表示） -->
-            <div id="success-message" style="display:none; margin-top:20px; padding:20px; background:#f0fdf4; border:1px solid #86efac; border-radius:8px; text-align:center;">
-                <p style="font-size:1rem; font-weight:700; color:#166534; margin-bottom:8px;">✓ 登録完了</p>
-                <p style="font-size:0.85rem; color:#333; margin-bottom:12px;">以下から最新の新設法人リストをダウンロードできます。</p>
-                <a href="/data/latest/nta_new_2026-05-20.csv" download style="display:inline-block; background:#1a56db; color:#fff; padding:10px 24px; border-radius:6px; font-size:0.9rem; font-weight:600; text-decoration:none;">CSVをダウンロード</a>
-                <p style="font-size:0.75rem; color:#888; margin-top:8px;">今後、毎朝メールでDLリンクをお届けします。</p>
+            <div id="success-message" style="display:none; margin-top:20px; padding:24px; background:#f0fdf4; border:1px solid #86efac; border-radius:8px; text-align:center;">
+                <p style="font-size:1.1rem; font-weight:700; color:#166534; margin-bottom:12px;">✓ 登録が完了しました</p>
+                <p style="font-size:0.9rem; color:#333; margin-bottom:16px;">以下から最新の新設法人リストをダウンロードできます。</p>
+                <a href="/data/latest/nta_new_2026-05-20.csv" download style="display:inline-block; background:#1a56db; color:#fff; padding:12px 28px; border-radius:6px; font-size:0.95rem; font-weight:700; text-decoration:none;">📥 最新CSVをダウンロード</a>
+                <p style="font-size:0.8rem; color:#666; margin-top:12px;">今後、毎朝メールでDLリンクをお届けします。</p>
             </div>
 
             <!-- 利用目的の明示 -->
@@ -496,6 +496,7 @@ document.getElementById('registration-form').addEventListener('submit', function
     
     var form = this;
     var btn = form.querySelector('.submit-btn');
+    var formCard = form.closest('.form-card');
     btn.textContent = '送信中...';
     btn.disabled = true;
 
@@ -518,11 +519,15 @@ document.getElementById('registration-form').addEventListener('submit', function
     fetch('https://script.google.com/a/macros/kym-work.com/s/AKfycbydfuT3nKnmQcqfz9EZkg8sV4q8qG4FuQWe3d3Hz3YEl-nBgwkvZdNxvSZcl9-aPRwP/exec', {
         method: 'POST',
         mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify(data)
     }).then(function() {
+        // no-corsではレスポンスが読めないが、送信自体は成功する
         form.style.display = 'none';
         document.getElementById('success-message').style.display = 'block';
+        // フォームカードの見出しも更新
+        formCard.querySelector('h2').textContent = '🎉 ありがとうございます！';
+        formCard.querySelector('h2 + p').style.display = 'none';
     }).catch(function() {
         btn.textContent = '無料でダウンロードする';
         btn.disabled = false;
