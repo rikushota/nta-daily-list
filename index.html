@@ -417,6 +417,12 @@
     <div class="form-card" id="download">
         <h2>無料でダウンロード</h2>
         <p style="text-align:center; font-size:0.85rem; color:#666; margin-bottom:20px;">登録後すぐに最新データと過去アーカイブをダウンロードできます。</p>
+        <div id="success-message" style="display:none; text-align:center; padding:40px 20px;">
+            <p style="font-size:1.3rem; font-weight:700; color:#1a56db; margin-bottom:12px;">✓ 登録が完了しました</p>
+            <p style="font-size:0.9rem; color:#555; margin-bottom:20px;">ご登録ありがとうございます。以下から最新データをダウンロードできます。</p>
+            <a href="/data/latest/nta_new_2026-05-20.csv" style="display:inline-block; background:#1a56db; color:#fff; padding:12px 28px; border-radius:6px; font-size:0.95rem; font-weight:700; text-decoration:none;">最新データをダウンロード（CSV）</a>
+            <p style="font-size:0.75rem; color:#999; margin-top:12px;">過去データは今後メールでご案内します</p>
+        </div>
         <form id="registration-form" action="#" method="POST">
             <div class="field">
                 <label>メールアドレス<span class="req">必須</span></label>
@@ -509,10 +515,11 @@ document.getElementById('registration-form').addEventListener('submit', function
 
     fetch('https://script.google.com/macros/s/AKfycbyM36ZF679kx1MjcCCaj179iUunEVbVBTPM1xw_cEIH6XdHW5AjrIpn9uNbYzekgRhqoQ/exec', {
         method: 'POST',
-        mode: 'no-cors',
         headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify(data)
-    }).then(function() {
+    }).then(function(response) {
+        return response.text();
+    }).then(function(text) {
         form.style.display = 'none';
         document.getElementById('success-message').style.display = 'block';
         formCard.querySelector('h2').textContent = '登録が完了しました';
