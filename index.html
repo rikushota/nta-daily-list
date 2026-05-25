@@ -489,6 +489,22 @@
 </footer>
 
 <script>
+// manifest.jsonから最新情報を読み込んでページに反映
+fetch('/manifest.json')
+    .then(function(r) { return r.json(); })
+    .then(function(m) {
+        // 累計件数
+        var statValues = document.querySelectorAll('.stat-value');
+        if (statValues[0]) statValues[0].innerHTML = m.total_records.toLocaleString() + '<span style="font-size:0.9rem;">+</span>';
+        // DLリンク（成功メッセージ内）
+        var dlLink = document.querySelector('#success-message a');
+        if (dlLink) dlLink.href = m.latest_csv_url;
+        // 更新実績テーブルの最新日付（1行目）
+        var firstTd = document.querySelector('.sample tbody tr td');
+        if (firstTd && m.latest_date) firstTd.textContent = m.latest_date.replace(/-/g, '/');
+    })
+    .catch(function() {});
+
 document.getElementById('registration-form').addEventListener('submit', function(e) {
     e.preventDefault();
     
