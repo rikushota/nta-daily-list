@@ -13,8 +13,7 @@ __pycache__/
 .venv/
 env/
 
-# Large CSV archives (keep only data/latest/)
-data/archive/
+# Large CSV archives (monthly/daily subdirs not used)
 data/monthly/
 data/daily/
 *.sqlite
