@@ -13,6 +13,11 @@
         li { padding: 8px 0; border-bottom: 1px solid #f0f0f0; padding-left: 12px; }
         a { color: #1a56db; text-decoration: none; font-size: 0.9rem; }
         a:hover { text-decoration: underline; }
+        details { cursor: pointer; }
+        summary { font-size: 0.9rem; color: #1a56db; font-weight: 600; padding: 4px 0; }
+        summary:hover { text-decoration: underline; }
+        .daily-list { margin-top: 8px; padding-left: 16px; }
+        .daily-list li { padding: 5px 0; border-bottom: 1px solid #f8f8f8; }
         .back { margin-top: 24px; font-size: 0.85rem; }
     </style>
 </head>
@@ -21,8 +26,15 @@
     <p>新設法人リストの過去データです。月別CSVまたは日別CSVをダウンロードできます。</p>
         <h3>▼ 2026年</h3>
         <ul>
-            <li><a href="nta_new_2026-05-22.csv">05/22（658件）</a></li>
-            <li><a href="nta_new_2026-05-20.csv">05/20（671件）</a></li>
+            <li>
+                <details>
+                    <summary>5月（当月・1,329件）</summary>
+                    <ul class="daily-list">
+                        <li><a href="nta_new_2026-05-22.csv">05/22（658件）</a></li>
+                        <li><a href="nta_new_2026-05-20.csv">05/20（671件）</a></li>
+                    </ul>
+                </details>
+            </li>
             <li><a href="nta_new_2026-04.csv">4月（13,731件）</a></li>
             <li><a href="nta_new_2026-03.csv">3月（13,768件）</a></li>
             <li><a href="nta_new_2026-02.csv">2月（10,698件）</a></li>
