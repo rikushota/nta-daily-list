@@ -7,7 +7,14 @@
   "latest_added_count": 539,
   "latest_csv_url": "/data/latest/nta_new_2026-05-25.csv",
   "archive_base_url": "/data/archive/",
-  "archive_available_from": "2016-01",
+  "archive_available_from": "2015-10",
   "source": "国税庁 法人番号公表サイト",
-  "source_url": "https://www.houjin-bangou.nta.go.jp/"
+  "source_url": "https://www.houjin-bangou.nta.go.jp/",
+  "recent_updates": [
+    {"date": "2026-05-25", "added": 539, "total": 1488237},
+    {"date": "2026-05-22", "added": 658, "total": 1487698},
+    {"date": "2026-05-21", "added": 683, "total": 1487040},
+    {"date": "2026-05-20", "added": 671, "total": 1486357},
+    {"date": "2026-05-19", "added": 589, "total": 1485686}
+  ]
 }
